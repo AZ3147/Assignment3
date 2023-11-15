@@ -1,5 +1,5 @@
 # Your API KEYS (you need to use your own keys - very long random characters)
-from config import MAPBOX_TOKEN, MBTA_API_KEY
+from config import MAPBOX_TOKEN, MBTA_API_KEY, WEATHER_API_KEY
 
 import pprint
 import json
@@ -57,7 +57,10 @@ def get_nearest_station(latitude: str, longitude: str) -> tuple[str, bool]:
     nearest_station = MBTA_BASE_URL + "?filter[latitude]=" + str(latitude) +"&filter[longitude]=" + str(longitude) + "&sort=distance"
     nearest_station_data = get_json(nearest_station)
     if nearest_station_data["data"] == []: #stops exception for out-of-range cities
-        answer = 'There are no stations near this location'
+        #answer = 'There are no stations near this location'
+        answer = None
+        if answer == None:
+            print('There are no stations near this location')
         return answer
     else:
         nearest_station_name = nearest_station_data["data"][0]["attributes"]["name"]
@@ -85,15 +88,24 @@ def find_stop_near(place_name: str) -> tuple[str, bool]:
         station = get_nearest_station(latitude, longitude)
         return station
 
+def get_temp(city):
+    APIKEY = WEATHER_API_KEY
+    country_code = 'us'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city},{country_code}&APPID={APIKEY}&units=metric'
 
-
+    with urllib.request.urlopen(url) as f:
+        response_text = f.read().decode('utf-8')
+        # print(response_text)
+        response_data = json.loads(response_text)
+        temp_in_farenheit = ((response_data['main']['temp'])*(9/5)) + 32
+        temp_feel = ((response_data['main']['feels_like'])*(9/5))+32
+        return temp_in_farenheit, temp_feel
 
 def main():
     """
     You should test all the above functions here
     """
     "Test get_json"
-
     place_name = 'Boston Common'
     url = get_url(place_name)
     print(url)
@@ -112,8 +124,9 @@ def main():
     "nearest station, using input"
     print(find_stop_near(input("Please enter a city to find a close MBTA station ")))
 
-
-    
+    "Get Temp"
+    temp, temp_feel = get_temp('boston')
+    print(f' the temperature in Boston is {temp:.2f} degrees, but it feels like it is {temp_feel:.2f} degrees')
 
 
 if __name__ == '__main__':

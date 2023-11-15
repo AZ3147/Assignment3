@@ -15,11 +15,14 @@
       font-weight: bold;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       text-align: center;
-      background-color: navy;
-      color: azure;
+      background-color: black;
+      color: whitesmoke;
     }
     button{
       background-color: lightgray;
+    }
+    button:hover{
+      background-color: lightblue;
     }
     h2{
       font-size: x-large;
@@ -32,10 +35,10 @@
       font-size: large;    
       font-weight: 900;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
-      background-color: slategrey;
+      background-color: lightgrey;
     }
     body{
-      background-color: slategray;
+      background-color: lightgray;
     }
 
   </style>
@@ -43,15 +46,19 @@
 
   <body>
     <h1>
-      Welcome, use the form below to find the nearest MBTA station
+      <marquee behavior = "scroll" direction = "left" scrollamount="15"> Welcome, This Helpful App Can Help You Find The Nearest MBTA Station
+      </marquee>
     </h1>
-    
-    <form action="/nearest_mbta" method="post">
-      <label>Location: <input type="text" name="location" placeholder="Enter a City or Location"/></label>
-      <button>Submit</button>
+    <h2>
+      Use The Search Bar Below To Find A Station
+    </h2>
+    <form method="post" action="/nearest_mbta" >
+      <label>Location: <input type="text" id = "location" name="location" placeholder="Enter a City or Location"/></label>
+      <button onclick="submit">Submit</button>
+
     </form> 
     <p align="center">
-      <img src="{{ url_for('static', filename = 'MBTA_Boston_subway_map.jpg')}}" height="300" alt="Illustration of the Boston MBTA " />
+      <img src="MBTA_Boston_subway_map.png" height="300" alt="Illustration of the Boston MBTA " />
       </p>
       <p align="center">
       </p>

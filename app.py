@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from mbta_helper import find_stop_near
+from mbta_helper import find_stop_near, get_temp
 
 
 app = Flask(__name__)
@@ -23,8 +23,11 @@ def nearest_mbta():
 
     else:
         wheelchair_access = 'This location does not have wheelchair access'
+    
+    temp, temp_feel = get_temp('Boston')
 
-    return render_template ('nearest_mbta.html', name = name, wheelchair_access = wheelchair_access)
+    return render_template ('nearest_mbta.html', name = name, wheelchair_access = wheelchair_access, temp = temp, temp_feel = temp_feel)
+
 
 @app.route('/error_page')
 def error_page():
