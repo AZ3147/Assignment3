@@ -9,7 +9,6 @@ import urllib.request
 MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 MBTA_BASE_URL = "https://api-v3.mbta.com/stops"
 
-
 # A little bit of scaffolding if you want to use it
 def get_json(url: str) -> dict:
     """
@@ -32,7 +31,6 @@ def get_url(place_name):
     url=f'{MAPBOX_BASE_URL}/{place_name}.json?access_token={MAPBOX_TOKEN}&types=poi' 
     return url           
 
-
 def get_lat_long(place_name: str) -> tuple[str, str]:
     """
     Given a place name or address, return a (latitude, longitude) tuple with the coordinates of the given place.
@@ -44,9 +42,6 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     response_data = get_json(url) #format properly
     longitude, latitude = response_data["features"][0]["center"]  # coordinates are longitude then latitude
     return latitude, longitude
-   
-
-
 
 def get_nearest_station(latitude: str, longitude: str) -> tuple[str, bool]:
     """
@@ -71,7 +66,6 @@ def get_nearest_station(latitude: str, longitude: str) -> tuple[str, bool]:
             wheelchair_accessible = 'This station is not wheelchair accessible'
         information = (nearest_station_name, wheelchair_accessible)
         return information
-
 
 def find_stop_near(place_name: str) -> tuple[str, bool]:
     """
@@ -127,7 +121,6 @@ def main():
     "Get Temp"
     temp, temp_feel = get_temp('boston')
     print(f' the temperature in Boston is {temp:.2f} degrees, but it feels like it is {temp_feel:.2f} degrees')
-
 
 if __name__ == '__main__':
     main()
